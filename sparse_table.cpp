@@ -52,6 +52,7 @@ int myop(const int& a, const int& b) {
 разбиваем отрезки на непересекающиеся, каждый отрезок делится пополам (левая часть считает суффикс, правая - префикс)
 таким образом для ответа на запрос (l, r) необходимо найти отрезок, левый ребенок, которого содержит l, а правый r,
 и спросить значения на суффиксе/префиксе соответсвтенно 
+запрос на полуинтервале [l, r)
 */
 template<typename T, T (*F)(const T&, const T&), const T& neutral>
 struct disjoint_sparse_table {
@@ -59,32 +60,30 @@ struct disjoint_sparse_table {
 
   disjoint_sparse_table(const vector<T>& v) {
     int sz = v.size();
-    if (lg.size() < (sz << 1)) {
-      int cur = lg.size();
-      lg.resize((sz << 1));
-      for (int i = cur; i < (sz << 1); i++) {
-        lg[i] = lg[i >> 1] + 1;
-      }
-    }
-    t.assign(lg[sz + 1] + 1, vector<T>(sz + 1, neutral));
-    for (int i = 0, len; i <= lg[sz + 1]; i++) {
+    int h = highest_bit(sz + 1);
+    t.assign(h + 1, vector<T>(sz + 1, neutral));
+    for (int i = 0, len; i <= h; i++) {
       len = (1 << i);
-      for (int j = len; j - len <= sz; j += (len << 1)) {
+      for (int j = len; j < sz + len; j += (len << 1)) {
         for (int r = j + 1; r < min(sz + 1, j + len); r++)
-          t[i][r] = F(t[i][r - 1], v[r - 1]);
-        for (int l = min(j - 1, sz); l >= j - len; l--)
+          t[i][r] = F(v[r - 1], t[i][r - 1]);
+        for (int l = min(j - 1, sz - 1); l >= j - len; l--)
           t[i][l] = F(t[i][l + 1], v[l]);
       }
     }
   }
 
   T get(int l, int r) {
-    int sz = lg[l ^ r];
-    return F(t[sz][l], t[sz][r]);
+    int sz = highest_bit(l ^ r);
+    return F(t[sz][r], t[sz][l]);
   }
 
   private:
-  inline static vector<int> lg = {0, 0, 1};
+
+  int highest_bit(int number) {
+    return 31 - __builtin_clz(number);
+  }
+
   vector<vector<T>> t;
 };
 
