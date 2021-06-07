@@ -1,4 +1,4 @@
-# Implementaion of algos and some theory especially for competitive problems
+# Implementation of algos and some theory especially for competitive problems
 
 ## Author: Andryushin Maxim
 
