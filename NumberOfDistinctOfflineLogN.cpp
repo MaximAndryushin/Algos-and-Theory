@@ -6,6 +6,9 @@ using namespace std;
 // Sort Queries (l, r) by ascending r
 // Keep alive elements closest to current r
 
+// Atcoder Submission
+// https://atcoder.jp/contests/abc174/submissions/27397019
+
 struct SegTree {
     SegTree(int n) : t(n << 2) {}
 

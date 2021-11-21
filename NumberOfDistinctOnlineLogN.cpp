@@ -7,6 +7,9 @@ constexpr int N = 1e5 + 5;
 
 // Store in persistent SegTree alive elements closest from left to Current Right, which is version
 
+// Atcoder submission
+// https://atcoder.jp/contests/abc174/submissions/27437009
+
 struct Node {
     int sum = 0;
     Node* l = nullptr;

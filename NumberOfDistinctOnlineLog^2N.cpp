@@ -5,6 +5,9 @@ using namespace std;
 
 // Store sorted vectors in SegTree Node 
 // and just binary search for each Node
+
+// Atcoder submission
+// https://atcoder.jp/contests/abc174/submissions/27390458
  
 struct SegTree {
     SegTree(const vector<int>& v) : t(v.size() << 2) {
