@@ -98,13 +98,12 @@ struct SuffTree {
     }
 
     int getLink(int v) {
-        int& ans = tree[v].link;
         // если линка уже посчитана, возврашаем
-        if (ans != -1) 
-            return ans;
+        if (tree[v].link != -1) 
+            return tree[v].link;
         // если дошли до корня возвращаем корень
         if (v == 0) 
-            return ans = 0;
+            return tree[v].link = 0;
 
         // иначе насчитаем линку рекурсивно
         int p = tree[v].par;
@@ -121,7 +120,7 @@ struct SuffTree {
         int ri = tree[v].r;
         auto nex = go(loc, le, ri);
         // разделим ребро если нужно
-        return ans = split(nex);
+        return tree[v].link = split(nex);
     }
 
     void add(char c) {
