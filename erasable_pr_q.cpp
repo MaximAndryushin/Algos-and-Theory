@@ -16,8 +16,16 @@ struct EPQ {
     }
 
     void pop() {
+        while(!rem.empty() && ins.top() == rem.top()) {
+            ins.pop();
+            rem.pop();
+        }
         ins.pop();
     }
+
+    void erase(T v) {
+        rem.push(v);
+    } 
 
     std::size_t size() {
         return ins.size() - rem.size();
